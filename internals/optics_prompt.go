@@ -11,7 +11,7 @@ import (
 	"strings"
 
 	"github.com/google/generative-ai-go/genai"
-	"github.com/iosxe-yosemite/IOS-XE-Copilot/internals/cisco"
+	"github.com/iosxe-yosemite/Cisco-AIXEdge/internals/cisco"
 	"github.com/sashabaranov/go-openai"
 	"github.com/sashabaranov/go-openai/jsonschema"
 	"google.golang.org/api/option"

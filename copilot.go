@@ -4,7 +4,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/iosxe-yosemite/IOS-XE-Copilot/internals"
+	"github.com/iosxe-yosemite/Cisco-AIXEdge/internals"
 )
 
 func main() {

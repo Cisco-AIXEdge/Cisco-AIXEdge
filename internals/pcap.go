@@ -13,7 +13,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/iosxe-yosemite/IOS-XE-Copilot/internals/providers"
+	"github.com/iosxe-yosemite/Cisco-AIXEdge/internals/providers"
 )
 
 type ChatGPTRequest struct {

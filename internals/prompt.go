@@ -3,7 +3,7 @@ package internals
 import (
 	"fmt"
 
-	"github.com/iosxe-yosemite/IOS-XE-Copilot/internals/providers"
+	"github.com/iosxe-yosemite/Cisco-AIXEdge/internals/providers"
 )
 
 func (c *Client) Prompt(content string) {

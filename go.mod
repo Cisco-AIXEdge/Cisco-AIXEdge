@@ -1,4 +1,4 @@
-module github.com/iosxe-yosemite/IOS-XE-Copilot
+module github.com/iosxe-yosemite/Cisco-AIXEdge
 
 go 1.21.4
 

@@ -13,7 +13,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/chzyer/readline"
-	"github.com/iosxe-yosemite/IOS-XE-Copilot/internals/cisco"
+	"github.com/iosxe-yosemite/Cisco-AIXEdge/internals/cisco"
 	"github.com/sashabaranov/go-openai"
 )
 
