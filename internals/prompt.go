@@ -1,0 +1,29 @@
+package internals
+
+import (
+	"fmt"
+
+	"github.com/iosxe-yosemite/IOS-XE-Copilot/internals/providers"
+)
+
+func (c *Client) Prompt(content string) {
+	defer func() {
+		if panicInfo := recover(); panicInfo != nil {
+			fmt.Println("API key non-existant. Please do copilot-cfg <API KEY>")
+		}
+	}()
+	cfg, err := c.configRead()
+	if err != nil {
+		panic(err)
+	}
+	engine := providers.Engine{
+		Provider: c.Engine,
+		Version:  c.EngineVERSION,
+	}
+	a := providers.Client{
+		API:    cfg.Apikey,
+		Engine: engine,
+	}
+	a.Prompt(content)
+
+}
