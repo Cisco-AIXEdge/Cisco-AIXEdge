@@ -34,38 +34,24 @@ env GOOS=linux GOARCH=386 go build ./copilot.go
 ### Installation
 
 ```bash
-# Install via pip
-pip install cisco-aixedge
-
-# Or clone and install from source
-git clone https://github.com/cisco/aixedge.git
-cd aixedge
-pip install -e .
+Switch#copy http://bootstrap.yosemite.iosxe.net/copilot-init.cfg running-config
 ```
 
 ### Basic Usage
 
-```python
-from cisco_aixedge import AIXEdge
+```bash
+SW#copilot-help
 
-# Initialize with your device credentials
-assistant = AIXEdge(
-    username="admin",
-    password="your_password",
-    devices=[
-        {"ip": "192.168.1.1", "platform": "ios-xe"},
-        {"ip": "192.168.1.2", "platform": "nx-os"}
-    ]
-)
-
-# Use natural language to execute commands
-response = assistant.execute("Show me interfaces with errors on device 192.168.1.1")
-
-# Get configuration recommendations
-suggestions = assistant.analyze("Check for security vulnerabilities in my ACLs")
-
-# Automate a common task
-assistant.automate("Configure OSPF area 0 on all core routers")
+AI assitant for Cisco IOS-XE products.
+        Arguments:
+        copilot-help                                                                    Presents options to run AI assistant
+        copilot <query>                                                                 Queries adressed to AI Assistant
+        copilot <show command> @ <query to AI assistant>                                AI Assistant helps with command's output
+        copilot-upgrade                                                                 Upgrades the AI Assistant to the latest version
+        copilot-cfg <API_KEY>                                                           Initial config of the script; Adds the OpenAI API key;
+        copilot-init                                                                    Initialization of AI assistant
+        copilot-uninstall                                                               Uninstall the AI assistant
+        copilot-version                                                                 Shows installed version
 ```
 
 ## 📚 Documentation
@@ -107,7 +93,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 For questions, feedback, or support:
 - GitHub Issues: [https://github.com/cisco/aixedge/issues](https://github.com/cisco/aixedge/issues)
-- Email: scozma@cisco.com
+- Email: scozma@cisco.com, rcsapo@cisco.com
 
 ---
 
