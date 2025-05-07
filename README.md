@@ -8,7 +8,7 @@
 
 ## 🤖 AI-Powered Assistant for Cisco Network Devices
 
-Cisco AIXEDGE is an open-source AI assistant that simplifies management and troubleshooting of Cisco IOS-XE and NX-OS devices. It leverages natural language processing to interpret commands, automate routine tasks, and provide contextual assistance to network engineers.
+Cisco AIXEdge is an open-source AI assistant that simplifies management and troubleshooting of Cisco IOS-XE and NX-OS devices. It leverages natural language processing to interpret commands, automate routine tasks, and provide contextual assistance to network engineers.
 
 ## ✨ Key Features
 
@@ -23,7 +23,7 @@ Cisco AIXEDGE is an open-source AI assistant that simplifies management and trou
 ### Prerequisites
 
 - go version go1.22.4
-- Network access to Cisco devices
+- Network access to Cisco devices (IOS-XE or NX-OS)
 - Bring your Own API key (OpenAI / Google Gemini)
 
 ### Build 
@@ -34,7 +34,7 @@ env GOOS=linux GOARCH=386 go build ./copilot.go
 ### Installation
 
 ```bash
-Switch#copy http://bootstrap.yosemite.iosxe.net/copilot-init.cfg running-config
+Switch#copy http://<Bootstrap Server>/copilot-init.cfg running-config
 ```
 
 ### Basic Usage
@@ -45,6 +45,7 @@ SW#copilot-help
 AI assitant for Cisco IOS-XE products.
         Arguments:
         copilot-help                                                                    Presents options to run AI assistant
+	copilot-chat									Chat with the AI assitant
         copilot <query>                                                                 Queries adressed to AI Assistant
         copilot <show command> @ <query to AI assistant>                                AI Assistant helps with command's output
         copilot-upgrade                                                                 Upgrades the AI Assistant to the latest version
