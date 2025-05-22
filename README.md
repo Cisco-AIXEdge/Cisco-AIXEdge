@@ -34,13 +34,13 @@ env GOOS=linux GOARCH=386 go build -o aixedge.built ./aixedge.go
 ### Installation
 
 ```bash
-Switch#copy http://bootstrap.cisco-aixedge.com/copilot-init.cfg running-config
+Switch#copy http://bootstrap.cisco-aixedge.com/aixedge-init.cfg running-config
 ```
 
 ### Basic Usage
 
 ```bash
-SW#copilot-help
+SW#aixedge-help
 
 AI assitant for Cisco AIXEdge products.
         Arguments:
@@ -85,9 +85,6 @@ We welcome contributions from the community! Please see our [CONTRIBUTING.md](CO
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
-
-- Cisco DevNet community
-- All our open-source contributors
 - The network engineering community for valuable feedback
 
 ## 📬 Contact
