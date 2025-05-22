@@ -8,7 +8,7 @@ AI assitant for AIXEdge products.
 	aixedge-chat										Chat with the AI assitant
 	aixedge <query>       	 							Queries adressed to AI Assistant
 	aixedge <show command> @ <query to AI assistant> 				AI Assistant helps with command's output
-	aixedge-pacp <file_name> <query to AI assistant>
+	aixedge-pacp <file_name> <query to AI assistant>		AI assistant helps with PCAP interpretation
 	aixedge-optics <query>							        Queries AI Assistant regarding optics & compatibility
 	aixedge-feature <query>							         Queries AI Assistant regarding optics & compatibility 
 	aixedge-help  	     								Presents options to run AI assistant
