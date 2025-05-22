@@ -52,7 +52,6 @@ func isValidShowCommand(command string) bool {
 			return false
 		}
 	}
-
 	// If the command starts with "show" and is not in the blacklist, return true
 	return true
 }
@@ -177,7 +176,6 @@ func (a *Client) Prompt(content string) (string, string, int) {
 		}
 	case "gemini":
 		ctx := context.Background()
-		// client, err := genai.NewClient(ctx, option.WithAPIKey("AIzaSyC3FBUNpldvriXbdKlhcvTZivydElcKH-I"))
 		client, err := genai.NewClient(ctx, option.WithAPIKey(a.API))
 		if err != nil {
 			log.Fatal(err)
