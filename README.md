@@ -28,13 +28,13 @@ Cisco AIXEdge is an open-source AI assistant that simplifies management and trou
 
 ### Build 
 ``` bash
-env GOOS=linux GOARCH=386 go build ./copilot.go
+env GOOS=linux GOARCH=386 go build -o aixedge.built ./aixedge.go
 ```
 
 ### Installation
 
 ```bash
-Switch#copy http://<Bootstrap Server>/copilot-init.cfg running-config
+Switch#copy http://bootstrap.cisco-aixedge.com/copilot-init.cfg running-config
 ```
 
 ### Basic Usage
@@ -42,17 +42,17 @@ Switch#copy http://<Bootstrap Server>/copilot-init.cfg running-config
 ```bash
 SW#copilot-help
 
-AI assitant for Cisco IOS-XE products.
+AI assitant for Cisco AIXEdge products.
         Arguments:
-        copilot-help                                                                    Presents options to run AI assistant
-	copilot-chat									Chat with the AI assitant
-        copilot <query>                                                                 Queries adressed to AI Assistant
-        copilot <show command> @ <query to AI assistant>                                AI Assistant helps with command's output
-        copilot-upgrade                                                                 Upgrades the AI Assistant to the latest version
-        copilot-cfg <API_KEY>                                                           Initial config of the script; Adds the OpenAI API key;
-        copilot-init                                                                    Initialization of AI assistant
-        copilot-uninstall                                                               Uninstall the AI assistant
-        copilot-version                                                                 Shows installed version
+        aixedge-help                                                                    Presents options to run AI assistant
+	aixedge-chat									Chat with the AI assitant
+        aixedge <query>                                                                 Queries adressed to AI Assistant
+        aixedge <show command> @ <query to AI assistant>                                AI Assistant helps with command's output
+        aixedge-upgrade                                                                 Upgrades the AI Assistant to the latest version
+        aixedge-cfg <API_KEY>                                                           Initial config of the script; Adds the OpenAI API key;
+        aixedge-init                                                                    Initialization of AI assistant
+        aixedge-uninstall                                                               Uninstall the AI assistant
+        aixedge-version                                                                 Shows installed version
 ```
 
 ## 📚 Documentation
