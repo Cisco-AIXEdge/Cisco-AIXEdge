@@ -6,8 +6,8 @@ import (
 	"log"
 	"strings"
 
+	"github.com/Cisco-AIXEdge/Cisco-AIXEdge/internals/cisco"
 	"github.com/google/generative-ai-go/genai"
-	"github.com/iosxe-yosemite/Cisco-AIXEdge/internals/cisco"
 	"github.com/sashabaranov/go-openai"
 	"google.golang.org/api/option"
 )

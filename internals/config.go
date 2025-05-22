@@ -10,7 +10,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/iosxe-yosemite/Cisco-AIXEdge/internals/cisco"
+	"github.com/Cisco-AIXEdge/Cisco-AIXEdge/internals/cisco"
 )
 
 type configFile struct {

@@ -1,4 +1,4 @@
-module github.com/iosxe-yosemite/Cisco-AIXEdge
+module github.com/Cisco-AIXEdge/Cisco-AIXEdge
 
 go 1.21.4
 

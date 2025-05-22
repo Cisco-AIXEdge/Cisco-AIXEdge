@@ -3,7 +3,7 @@ package internals
 import (
 	"fmt"
 
-	"github.com/iosxe-yosemite/Cisco-AIXEdge/internals/providers"
+	"github.com/Cisco-AIXEdge/Cisco-AIXEdge/internals/providers"
 )
 
 func (c *Client) Interactive() {
