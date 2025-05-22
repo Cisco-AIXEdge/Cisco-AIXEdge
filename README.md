@@ -3,7 +3,7 @@
 <img src="https://github.com/user-attachments/assets/3ad32655-d8e6-47ba-9bf8-0c3f2564912b" width="300" height="300">
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/:user/:repo)
+![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/Cisco-AIXEdge/Cisco-AIXEdge)
 [![Documentation](https://img.shields.io/badge/docs-latest-brightgreen.svg)](https://aixedge.readthedocs.io)
 
 ## 🤖 AI-Powered Assistant for Cisco Network Devices
