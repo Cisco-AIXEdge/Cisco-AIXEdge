@@ -66,7 +66,7 @@ func (c *Client) ConfigWrite(api string) {
 	if err := os.WriteFile(".config.json", []byte(cfgJson), 0644); err != nil {
 		panic(err)
 	}
-	fmt.Println("COPILOT configured")
+	fmt.Println("AIXEdge configured")
 
 }
 
