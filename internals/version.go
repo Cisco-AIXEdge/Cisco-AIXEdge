@@ -34,11 +34,11 @@ func (c *Client) CheckVersion() {
 		fmt.Printf("Installed: %s\tLatest: %s\n", c.Version, latestVersion)
 		fmt.Println("Upgrading...")
 		//Download triggered
-		copilotFile := fmt.Sprintf("%v%v/copilot.built", c.SoftwareURL, latestVersion)
-		c.download(copilotFile, "copilot.built")
+		copilotFile := fmt.Sprintf("%v%v/aixedge.built", c.SoftwareURL, latestVersion)
+		c.download(copilotFile, "aixedge.built")
 		ciscoCmd := fmt.Sprintf("%v%v/cmd.py", c.SoftwareURL, latestVersion)
 		c.download(ciscoCmd, "cmd.py")
-		fmt.Println("Copilot Upgraded:", latestVersion)
+		fmt.Println("AIXEdge Upgraded:", latestVersion)
 	} else {
 		fmt.Println("No upgrade needed")
 		fmt.Printf("Installed: %s\tLatest: %s\n", c.Version, latestVersion)
