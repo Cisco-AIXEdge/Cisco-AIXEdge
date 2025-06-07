@@ -57,7 +57,7 @@ AI assitant for Cisco AIXEdge products.
 
 ## 📚 Documentation
 
-For comprehensive documentation, visit [[https://aixedge.readthedocs.io](https://aixedge.readthedocs.io)](https://docs.cisco-aixedge.com/)
+For comprehensive documentation, visit [docs.cisco-aixedge.com](https://docs.cisco-aixedge.com)
 
 ### Sample Use Cases
 
