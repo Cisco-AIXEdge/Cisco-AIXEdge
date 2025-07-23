@@ -8,7 +8,7 @@
 
 ## 🤖 AI-Powered Assistant for Cisco Network Devices
 
-Cisco AIXEdge is an open-source AI assistant that simplifies management and troubleshooting of Cisco Catalyst 9350 switches and NX-OS devices. It leverages natural language processing to interpret commands, automate routine tasks, and provide contextual assistance to network engineers.
+Cisco AIXEdge is an open-source AI assistant that simplifies management and troubleshooting of Cisco C9350 Smart Switches and NX-OS devices. It leverages natural language processing to interpret commands, automate routine tasks, and provide contextual assistance to network engineers.
 
 ## ✨ Key Features
 
