@@ -13,12 +13,14 @@ import (
 )
 
 type configFile struct {
-	Apikey       string `json:"api_key"`
-	PID          string `json:"pid,omitempty"`
-	SerialNumber string `json:"serialnumber,omitempty"`
-	Eula         bool   `json:"eula"`
-	SwVer        string `json:"swVer"`
-	Platform     string `json:"platform"`
+	Engine        string `json:"engine"`
+	EngineVERSION string `json:"engine_version"`
+	Apikey        string `json:"api_key"`
+	PID           string `json:"pid,omitempty"`
+	SerialNumber  string `json:"serialnumber,omitempty"`
+	Eula          bool   `json:"eula"`
+	SwVer         string `json:"swVer"`
+	Platform      string `json:"platform"`
 }
 
 // Function opens the configuration file
@@ -34,7 +36,7 @@ func (c *Client) configRead() (configFile, error) {
 // Function writes SN, PN, API key into .config.json
 // It triggers cmd.py to get SN, PN from device
 // With these and API key it writes the configuration json locally on the device.
-func (c *Client) ConfigWrite(api string) {
+func (c *Client) ConfigWrite(provider string, model string, api string) {
 	defer func() {
 		if panicInfo := recover(); panicInfo != nil {
 			fmt.Println("Missing/Corrupted dependecy! Python module is not able to collect SN/PID of device")
@@ -42,16 +44,27 @@ func (c *Client) ConfigWrite(api string) {
 	}()
 
 	// Download python module
-	c.getCLI("cmd.py")
+	// c.getCLI("cmd.py")
 
 	var cfgJson string
 	var err error
 	cfg := &configFile{}
+	cfg.Engine = provider
+	cfg.EngineVERSION = model
 	cfg.Apikey = api
 	cfg.Eula = true
 	iosxe := cisco.IOSXE{}
 	cfg.PID, cfg.SerialNumber, cfg.SwVer, cfg.Platform, err = iosxe.Device()
 	if err != nil {
+		panic(err)
+	}
+
+	// Check if the provider and model are valid
+	if _, err := validateProvider(provider); err != nil {
+		panic(err)
+	}
+
+	if _, err := validateModel(provider, model, api); err != nil {
 		panic(err)
 	}
 
@@ -108,3 +121,5 @@ func (c *Client) getCLI(file string) {
 	url = fmt.Sprintf("%v%v/%v", c.SoftwareURL, latestVersion, file)
 	c.download(url, file)
 }
+
+

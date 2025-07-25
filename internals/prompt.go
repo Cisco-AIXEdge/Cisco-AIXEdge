@@ -9,7 +9,7 @@ import (
 func (c *Client) Prompt(content string) {
 	defer func() {
 		if panicInfo := recover(); panicInfo != nil {
-			fmt.Println("API key non-existant. Please do copilot-cfg <API KEY>")
+			fmt.Println("API key non-existent. Please do aixedge-cfg <LLM Provider> <Model> <API KEY>")
 		}
 	}()
 	cfg, err := c.configRead()
@@ -17,8 +17,8 @@ func (c *Client) Prompt(content string) {
 		panic(err)
 	}
 	engine := providers.Engine{
-		Provider: c.Engine,
-		Version:  c.EngineVERSION,
+		Provider: cfg.Engine,
+		Version:  cfg.EngineVERSION,
 	}
 	a := providers.Client{
 		API:    cfg.Apikey,

@@ -27,7 +27,9 @@ func geminiPrintResponse(resp *genai.GenerateContentResponse) {
 
 		if cand.Content != nil {
 			for _, part := range cand.Content.Parts {
-				fmt.Println(part)
+				if textPart, ok := part.(genai.Text); ok {
+						fmt.Println(textPart)
+                    }
 			}
 		}
 	}
@@ -88,7 +90,7 @@ func (a *Client) Prompt(content string) (string, string, int) {
 							Messages: []openai.ChatCompletionMessage{
 								{
 									Role:    openai.ChatMessageRoleSystem,
-									Content: "You are Cisco network engineer assistant and you respond only to questions about Cisco IOS-XE",
+									Content: "You are a Cisco network engineer assistant and you respond only to questions about Cisco IOS-XE",
 								},
 								{
 									Role:    openai.ChatMessageRoleUser,
@@ -107,7 +109,7 @@ func (a *Client) Prompt(content string) (string, string, int) {
 							fmt.Print("Copilot cannot understand at this moment this output! :(\n")
 							error_code = 400
 						case strings.Contains(err.Error(), "401"):
-							fmt.Printf("Invalid API key!\nUse copilot-cfg <API KEY> to update the API key\n")
+							fmt.Printf("Invalid API key!\nUse aixedge-cfg <LLM Provider> <Model> <API KEY> to update the API key\n")
 
 						case strings.Contains(err.Error(), "429"):
 							fmt.Printf("Copilot has hit limit..Please try again later!")
@@ -183,7 +185,7 @@ func (a *Client) Prompt(content string) (string, string, int) {
 		defer client.Close()
 
 		model := client.GenerativeModel(a.Engine.Version)
-		model.SetMaxOutputTokens(500)
+		model.SetMaxOutputTokens(1024)
 
 		//Based on existance of separator the API call is selected
 		if strings.Contains(content, promptSeparator) {
@@ -194,7 +196,7 @@ func (a *Client) Prompt(content string) (string, string, int) {
 				output, err := cli.Command(cmd)
 				if err == nil {
 					model.SystemInstruction = &genai.Content{
-						Parts: []genai.Part{genai.Text(`You are Cisco network engineer assistant and you respond only to questions about Cisco IOS-XE. You have the following output:
+						Parts: []genai.Part{genai.Text(`You are a Cisco network engineer assistant and you respond only to questions about Cisco IOS-XE. You have the following output:
 					` + output)},
 					}
 
@@ -205,7 +207,7 @@ func (a *Client) Prompt(content string) (string, string, int) {
 							fmt.Print("Copilot cannot understand at this moment this output! :(\n")
 							error_code = 400
 						case strings.Contains(err.Error(), "401"):
-							fmt.Printf("Invalid API key!\nUse copilot-cfg <API KEY> to update the API key\n")
+							fmt.Printf("Invalid API key!\nUse aixedge-cfg <LLM Provider> <Model> <API KEY> to update the API key\n")
 
 						case strings.Contains(err.Error(), "429"):
 							fmt.Printf("Copilot has hit limit..Please try again later!")
@@ -230,7 +232,7 @@ func (a *Client) Prompt(content string) (string, string, int) {
 		} else {
 			prompt = content
 			model.SystemInstruction = &genai.Content{
-				Parts: []genai.Part{genai.Text(`You are Cisco network engineer assistant and you respond only to questions about Cisco IOS-XE.`)},
+				Parts: []genai.Part{genai.Text(`You are a Cisco network engineer assistant and you respond only to questions about Cisco IOS-XE.`)},
 			}
 
 			resp, err := model.GenerateContent(ctx, genai.Text(prompt))
@@ -241,7 +243,7 @@ func (a *Client) Prompt(content string) (string, string, int) {
 					fmt.Print("Copilot cannot understand at this moment this output! :(\n")
 					error_code = 400
 				case strings.Contains(err.Error(), "401"):
-					fmt.Printf("Invalid API key!\nUse copilot-cfg <API KEY> to update the API key\n")
+					fmt.Printf("Invalid API key!\nUse aixedge-cfg <LLM Provider> <Model> <API KEY> to update the API key\n")
 
 				case strings.Contains(err.Error(), "429"):
 					fmt.Printf("Copilot has hit limit..Please try again later!")

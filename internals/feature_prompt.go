@@ -202,10 +202,8 @@ func (c *Client) FeaturePrompt(content string) {
 		panic(err)
 	}
 
-	modelType := "gpt-4o"
-
-	switch modelType {
-	case "gpt-4o":
+	switch cfg.Engine {
+	case "openai":
 		ctx := context.Background()
 		params := jsonschema.Definition{
 			Type: jsonschema.Object,
@@ -236,7 +234,7 @@ func (c *Client) FeaturePrompt(content string) {
 		resp, err = client.CreateChatCompletion(
 			ctx,
 			openai.ChatCompletionRequest{
-				Model:     modelType,
+				Model:     cfg.EngineVERSION,
 				MaxTokens: maxToken,
 				Messages: []openai.ChatCompletionMessage{
 					{
@@ -274,7 +272,7 @@ func (c *Client) FeaturePrompt(content string) {
 
 			resp, err := client.CreateChatCompletion(ctx,
 				openai.ChatCompletionRequest{
-					Model:     modelType,
+					Model:     cfg.EngineVERSION,
 					MaxTokens: maxToken,
 					Messages: []openai.ChatCompletionMessage{
 						{
@@ -295,7 +293,7 @@ func (c *Client) FeaturePrompt(content string) {
 
 		}
 
-	case "gemini-1.0-pro":
+	case "gemini":
 		ctx := context.Background()
 		client, err := genai.NewClient(ctx, option.WithAPIKey(cfg.Apikey))
 		if err != nil {
@@ -321,7 +319,7 @@ func (c *Client) FeaturePrompt(content string) {
 			}},
 		}
 
-		model := client.GenerativeModel(modelType)
+		model := client.GenerativeModel(cfg.EngineVERSION)
 		model.Tools = []*genai.Tool{f}
 
 		session := model.StartChat()

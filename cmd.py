@@ -20,8 +20,8 @@ args = parser.parse_args()
 if args.conf:
     print(args.conf)
     commands = args.conf.split('%')
-    formatted_commands = '; '.join(command.strip() for command in commands)
-    cli.clip(formatted_commands)
+    formatted_commands = [command.strip() for command in commands]
+    cli.configurep(formatted_commands)
 
 if args.prompt:
     task = ""
@@ -38,7 +38,7 @@ if args.device:
         sn = match.group(2)
         sn = sn.replace('\n', '')
 
-    pattern = re.compile(r"C([^-]+)-")
+    pattern = re.compile(r"([^-]+)")
     match = pattern.search(pid)
     if match:
         platform = match.group(1)
@@ -57,8 +57,8 @@ if args.device:
 
 if args.inventory:
     data = cli.cli("show inventory")
-    # Regular expression pattern to match PIDs with "C9" and containing "NM"
-    pattern = r'PID: (.*(?:C9|NM)\S*)'
+    # Regular expression pattern to match PIDs containing ISR, IR, C8, C9, or NM
+    pattern = r'PID: (.*(?:ISR|IR|C8|C9|NM)\S*)'
 
     # Extracting matching PIDs
     pids = re.findall(pattern, data)
