@@ -35,9 +35,15 @@ func main() {
 		// The upgrade is triggered here. The upgrade function is in /internals/version.go
 		client.CheckVersion()
 	} else if os.Args[1] == "--config" || os.Args[1] == "-c" {
+		// Expects 3 arguments: Engine (openai, gemini, etc.), Engine version (gpt-4o, gemini-2.5-flash, etc.), API key
 		// The configuration consists of writing in a JSON file the SN/PN and API key for AI engine
 		// As argument it needs the API key. Check /internals/config.go
-		client.ConfigWrite(os.Args[2])
+		// Check if the correct number of arguments is provided
+		if len(os.Args) < 5 {
+			client.Help()
+			os.Exit(1)
+		}
+		client.ConfigWrite(os.Args[2], os.Args[3], os.Args[4])
 	} else if os.Args[1] == "--version" || os.Args[1] == "-v" {
 		// Shows the software version
 		client.ShowVersion()
