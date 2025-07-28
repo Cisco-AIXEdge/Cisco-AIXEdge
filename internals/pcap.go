@@ -2,21 +2,22 @@ package internals
 
 import (
 	"bytes"
+	"context"
 	"encoding/binary"
-	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net"
-	"net/http"
 	"os"
 	"strings"
 	"time"
 
 	"github.com/Cisco-AIXEdge/Cisco-AIXEdge/internals/providers"
+	"github.com/sashabaranov/go-openai"
+	"github.com/google/generative-ai-go/genai"
+	"google.golang.org/api/option"
 )
 
-type ChatGPTRequest struct {
+type LLMRequest struct {
 	Model    string    `json:"model"`
 	Messages []Message `json:"messages"`
 }
@@ -123,8 +124,8 @@ func (c *Client) Pcap(question string) {
 	}
 
 	engine := providers.Engine{
-		Provider: c.Engine,
-		Version:  c.EngineVERSION,
+		Provider: cfg.Engine,
+		Version:  cfg.EngineVERSION,
 	}
 
 	a := providers.Client{
@@ -139,7 +140,7 @@ func (c *Client) Pcap(question string) {
 		return
 	}
 
-	// Prepare the prompt for ChatGPT
+	// Prepare the prompt for LLM
 	prompt := fmt.Sprintf(`
 You have a PCAP summary below please answer the following question: %s
 
@@ -148,9 +149,9 @@ PCAP Summary:
 `, question, summary)
 
 	// Send to ChatGPT
-	response, err := sendToChatGPT(prompt, a.API)
+	response, err := sendToLLM(prompt, &a)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error sending to ChatGPT: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error sending to LLM (%s): %v\n", a.Engine.Provider, err)
 		return
 	}
 
@@ -677,64 +678,65 @@ func formatPayload(payload []byte) string {
 	return hexStr.String()
 }
 
-// ChatGPT communication function
-func sendToChatGPT(prompt string, apiKey string) (string, error) {
-	// Create the request payload
-	reqBody := ChatGPTRequest{
-		Model: "gpt-4o",
-		Messages: []Message{
-			{
-				Role:    "user",
-				Content: prompt,
+// Function to send a prompt to the LLM and get a response
+func sendToLLM(prompt string, a *providers.Client) (string, error) {
+	switch a.Engine.Provider {
+	case "openai":
+		ctx := context.Background()
+		client := openai.NewClient(a.API)
+
+		req := openai.ChatCompletionRequest{
+			Model:	a.Engine.Version,
+			Messages: []openai.ChatCompletionMessage{
+				{
+					Role:    openai.ChatMessageRoleUser,
+					Content: prompt,
+				},
 			},
-		},
+		}
+		resp, err := client.CreateChatCompletion(ctx, req)
+
+		// Check for errors
+		if err != nil {
+			return "", fmt.Errorf("Error creating chat completion: %v", err)
+		}
+
+		// Check for empty response
+		if len(resp.Choices) == 0 {
+			return "", fmt.Errorf("No response from OpenAI")
+		}
+
+		// Return the first choice's message content
+		return resp.Choices[0].Message.Content, nil
+	case "gemini":
+		ctx := context.Background()
+		client, err := genai.NewClient(ctx, option.WithAPIKey(a.API))
+		if err != nil {
+			return "", fmt.Errorf("Error creating Gemini client: %v", err)
+		}
+
+		// Set the model
+		model := client.GenerativeModel(a.Engine.Version)
+		model.SetMaxOutputTokens(1024)
+
+		resp, err := model.GenerateContent(ctx, genai.Text(prompt))
+		if err != nil {
+			return "", fmt.Errorf("Error generating content: %v", err)
+		}
+
+		// Check for empty response
+		if len(resp.Candidates) == 0 {
+			return "", fmt.Errorf("No response from Gemini")
+		}
+
+		// Return the first candidate's message content
+		for _, part := range resp.Candidates[0].Content.Parts {
+			if textPart, ok := part.(genai.Text); ok {
+				// Add response to chat history
+				return string(textPart), nil
+			}
+		}
+		return "", fmt.Errorf("No text part in Gemini response")
 	}
-
-	// Convert the request to JSON
-	jsonData, err := json.Marshal(reqBody)
-	if err != nil {
-		return "", err
-	}
-
-	// Create the HTTP request
-	req, err := http.NewRequest("POST", "https://api.openai.com/v1/chat/completions", bytes.NewBuffer(jsonData))
-	if err != nil {
-		return "", err
-	}
-
-	// Set headers
-	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", "Bearer "+apiKey)
-
-	// Send the request
-	client := &http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		return "", err
-	}
-	defer resp.Body.Close()
-
-	// Read the response
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return "", err
-	}
-
-	// Parse the response
-	var chatResponse ChatGPTResponse
-	if err := json.Unmarshal(body, &chatResponse); err != nil {
-		return "", err
-	}
-
-	// Check for errors
-	if chatResponse.Error != nil {
-		return "", fmt.Errorf("ChatGPT API error: %s", chatResponse.Error.Message)
-	}
-
-	// Check if we got any choices back
-	if len(chatResponse.Choices) == 0 {
-		return "", fmt.Errorf("no response from ChatGPT")
-	}
-
-	return chatResponse.Choices[0].Message.Content, nil
+	return "", fmt.Errorf("Unsupported provider: %s", a.Engine.Provider)
 }

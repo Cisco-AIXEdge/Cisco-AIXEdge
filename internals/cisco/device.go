@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/chzyer/readline"
+	"github.com/google/generative-ai-go/genai"
 	"github.com/sashabaranov/go-openai"
 )
 
@@ -34,77 +35,166 @@ var White = "\033[97m"
 // THIS SECTION IS FOR TOOL DEFINITION //
 /////////////////////////////////////////
 
-var F = openai.FunctionDefinition{
+// OpenAI tools
+var F1_openai = openai.FunctionDefinition{
 	Name:        "Show_cdp",
 	Description: "Get information about what devices are connected to this device. Has information about neighbouring devices.",
 }
-var Show_cdp_tool = openai.Tool{
+var Show_cdp_tool_openai = openai.Tool{
 	Type:     openai.ToolTypeFunction,
-	Function: F,
+	Function: F1_openai,
 }
 
-var F1 = openai.FunctionDefinition{
+var F2_openai = openai.FunctionDefinition{
 	Name:        "Show_ip_route",
-	Description: "Get information about what IPv4/IPv6routes are defined. Routes from EIGRP, OSPF, Static routes and default gateway and many others.",
+	Description: "Get information about what IPv4/IPv6 routes are defined. Routes from EIGRP, OSPF, Static routes and default gateway and many others.",
 }
-var Show_ip_route_tool = openai.Tool{
+var Show_ip_route_tool_openai = openai.Tool{
 	Type:     openai.ToolTypeFunction,
-	Function: F1,
+	Function: F2_openai,
 }
-var F2 = openai.FunctionDefinition{
+var F3_openai = openai.FunctionDefinition{
 	Name:        "Show_ip_int_br",
 	Description: "Get a summary of the status of the interfaces. It gives info about the status of the interface, ip address and others.",
 }
 
-var Show_ip_int_br_tool = openai.Tool{
+var Show_ip_int_br_tool_openai = openai.Tool{
 	Type:     openai.ToolTypeFunction,
-	Function: F2,
+	Function: F3_openai,
 }
-var F3 = openai.FunctionDefinition{
+var F4_openai = openai.FunctionDefinition{
 	Name:        "Show_vlan",
 	Description: "Tells what vlans are configured on the device, their name and on which interfaces are applied",
 }
 
-var Show_vlan_tool = openai.Tool{
+var Show_vlan_tool_openai = openai.Tool{
 	Type:     openai.ToolTypeFunction,
-	Function: F3,
+	Function: F4_openai,
 }
-var F4 = openai.FunctionDefinition{
+var F5_openai = openai.FunctionDefinition{
 	Name:        "Show_stp",
 	Description: "Tells information about Spanning Tree Protocol or STP. How it is configured and other details.",
 }
 
-var Show_stp_tool = openai.Tool{
+var Show_stp_tool_openai = openai.Tool{
 	Type:     openai.ToolTypeFunction,
-	Function: F4,
+	Function: F5_openai,
 }
-var F5 = openai.FunctionDefinition{
+var F6_openai = openai.FunctionDefinition{
 	Name:        "Show_mac_address",
-	Description: "Tells what mac adresses are seen by each port of the device and other information. This is the mac adress table of the device",
+	Description: "Tells what mac addresses are seen by each port of the device and other information. This is the mac address table of the device",
 }
-var Show_mac_address_tool = openai.Tool{
+var Show_mac_address_tool_openai = openai.Tool{
 	Type:     openai.ToolTypeFunction,
-	Function: F5,
+	Function: F6_openai,
 }
 
-var F7 = openai.FunctionDefinition{
+var F7_openai = openai.FunctionDefinition{
 	Name:        "Show_arp",
 	Description: "Tells information about MAC address and IP bindings and on which interface is present",
 }
 
-var Show_arp_tool = openai.Tool{
+var Show_arp_tool_openai = openai.Tool{
 	Type:     openai.ToolTypeFunction,
-	Function: F7,
+	Function: F7_openai,
 }
 
-var F8 = openai.FunctionDefinition{
+var F8_openai = openai.FunctionDefinition{
 	Name:        "ReviewConfig",
 	Description: "This function start the process to apply configuration or commands to the device. Also helps to review the commands in order to apply them",
 }
 
-var Review_config_tool = openai.Tool{
+var Review_config_tool_openai = openai.Tool{
 	Type:     openai.ToolTypeFunction,
-	Function: F8,
+	Function: F8_openai,
+}
+
+// Gemini tools
+var F1_gemini = genai.FunctionDeclaration{
+	Name:        "Show_cdp",
+	Description: "Get information about what devices are connected to this device. Has information about neighbouring devices.",
+	Parameters: &genai.Schema{
+		Type:       genai.TypeObject,
+		Properties: map[string]*genai.Schema{},
+	},
+}
+
+var F2_gemini = genai.FunctionDeclaration{
+	Name:        "Show_ip_route",
+	Description: "Get information about what IPv4/IPv6 routes are defined. Routes from EIGRP, OSPF, Static routes and default gateway and many others.",
+	Parameters: &genai.Schema{
+		Type:       genai.TypeObject,
+		Properties: map[string]*genai.Schema{},
+	},
+}
+
+var F3_gemini = genai.FunctionDeclaration{
+	Name:        "Show_ip_int_br",
+	Description: "Get a summary of the status of the interfaces. It gives info about the status of the interface, ip address and others.",
+	Parameters: &genai.Schema{
+		Type:       genai.TypeObject,
+		Properties: map[string]*genai.Schema{},
+	},
+}		
+
+var F4_gemini = genai.FunctionDeclaration{
+	Name:        "Show_vlan",
+	Description: "Tells what vlans are configured on the device, their name and on which interfaces are applied",
+	Parameters: &genai.Schema{
+		Type:       genai.TypeObject,
+		Properties: map[string]*genai.Schema{},
+	},
+}		
+
+var F5_gemini = genai.FunctionDeclaration{
+	Name:        "Show_stp",
+	Description: "Tells information about Spanning Tree Protocol or STP. How it is configured and other details.",
+	Parameters: &genai.Schema{
+		Type:       genai.TypeObject,
+		Properties: map[string]*genai.Schema{},
+	},
+}
+
+var F6_gemini = genai.FunctionDeclaration{
+	Name:        "Show_mac_address",
+	Description: "Tells what mac addresses are seen by each port of the device and other information. This is the mac address table of the device",
+	Parameters: &genai.Schema{
+		Type:       genai.TypeObject,
+		Properties: map[string]*genai.Schema{},
+	},
+}
+
+var F7_gemini = genai.FunctionDeclaration{
+	Name:        "Show_arp",
+	Description: "Tells information about MAC address and IP bindings and on which interface is present",
+	Parameters: &genai.Schema{
+		Type:       genai.TypeObject,
+		Properties: map[string]*genai.Schema{},
+	},
+}	
+
+var F8_gemini = genai.FunctionDeclaration{
+	Name:        "ReviewConfig",
+	Description: "This function start the process to apply configuration or commands to the device. Also helps to review the commands in order to apply them",
+	Parameters: &genai.Schema{
+		Type:       genai.TypeObject,
+		Properties: map[string]*genai.Schema{},
+	},
+}
+
+var func_declarations_gemini = []*genai.FunctionDeclaration{
+	&F1_gemini,
+	&F2_gemini,
+	&F3_gemini,
+	&F4_gemini,
+	&F5_gemini,
+	&F6_gemini,
+	&F7_gemini,
+	&F8_gemini,
+}
+
+var Tools_gemini = genai.Tool{
+	FunctionDeclarations: func_declarations_gemini,
 }
 
 //////////////////////////////////////////////////////////////
